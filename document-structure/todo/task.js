@@ -10,9 +10,13 @@ tasksSaved.forEach(task => {
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const task = form.elements['task__input'].value;
-    tasksSaved.push(task);
-    localStorage.setItem('tasks', JSON.stringify(tasksSaved));
-    insertLine(task);
+    if (task.trim()) {
+        tasksSaved.push(task);
+        localStorage.setItem('tasks', JSON.stringify(tasksSaved));
+        insertLine(task);
+    }
+    form.reset();
+    form.elements['task__input'].focus();
 })
 
 function insertLine(line) {
@@ -25,9 +29,6 @@ function insertLine(line) {
     const taskItems = [...tasksList.querySelectorAll('.task')]
     const taskItem = taskItems[taskItems.length - 1];
     const taskRemove = taskItem.querySelector('.task__remove');
-
-    form.reset();
-    form.elements['task__input'].focus();
 
     taskRemove.addEventListener('click', (e) => {
         e.preventDefault();
