@@ -10,8 +10,6 @@ if ('cart' in localStorage) {
     cartItems.forEach(item => {
         createCartItem(item);
     })
-} else {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
 }
 
 increasBtns.forEach(item => {
@@ -64,40 +62,29 @@ function addProductToCart(obj) {
 }
 
 function createCartItem(obj) {
-    const productItem = document.createElement('div');
-    productItem.classList.add('cart__product');
-    productItem.dataset.id = obj.id;
-
-    const productImg = document.createElement('img');
-    productImg.classList.add('cart__product-image');
-    productImg.src = obj.img;
-
-    const productQty = document.createElement('div');
-    productQty.classList.add('cart__product-count');
-    productQty.textContent = obj.qty;
-
-    const productRemove = document.createElement('a');
-    productRemove.classList.add('cart__product-remove');
-    productRemove.innerHTML = '&times';
-
-    cartProducts.append(productItem);
-    productItem.append(productImg);
-    productItem.append(productQty);
-    productItem.append(productRemove);
-    
     cartItems.push(obj);
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+     localStorage.setItem('cart', JSON.stringify(cartItems));
+
+    cartProducts.insertAdjacentHTML('beforeend',
+        ` <div class="cart__product" data-id="${obj.id}">
+            <img src="${obj.img}" class="cart__product-image">
+            <div class="cart__product-count"> ${obj.qty} </div>
+            <a href="" class="cart__product-remove"> &times; </a>
+        </div> `);
+    
+    const productItem = [...cart.querySelectorAll('.cart__product')][cartItems.length - 1];
+
+    const productRemove = productItem.querySelector('.cart__product-remove');
 
     cart.classList.add('cart_visible');
 
     productRemove.addEventListener('click', (e) => {
         e.preventDefault();
-        let id = productItem.dataset.id;
-        let index = cartItems.findIndex(item => item.id === id);
+        let index = cartItems.findIndex(item => item.id === productItem.dataset.id);
         cartItems.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cartItems));
         productItem.remove();
-        
+
         if (cartItems.length === 0) {
             cart.classList.remove('cart_visible');
         }

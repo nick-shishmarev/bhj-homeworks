@@ -1,12 +1,7 @@
 const form = document.querySelector('#tasks__form');
-const tasksList = document.querySelector('#tasks__list')
+const tasksList = document.querySelector('.tasks__list')
 
-let tasksSaved = localStorage.getItem('tasks');
-if (!tasksSaved) {
-    tasksSaved = [];
-} else {
-    tasksSaved = JSON.parse(tasksSaved);
-}
+let tasksSaved = JSON.parse(localStorage.getItem('tasks')) || [];
 
 tasksSaved.forEach(task => {
     insertLine(task);
@@ -21,17 +16,16 @@ form.addEventListener('submit', (e) => {
 })
 
 function insertLine(line) {
-    const taskItem = document.createElement('div');
-    taskItem.classList.add('task');
-    const taskTitle = document.createElement('div');
-    taskTitle.classList.add('task__title');
-    taskTitle.textContent = line;
-    const taskRemove = document.createElement('a');
-    taskRemove.classList.add('task__remove');
-    taskRemove.innerHTML = '&times';
-    tasksList.append(taskItem);
-    taskItem.append(taskTitle);
-    taskItem.append(taskRemove);
+    tasksList.insertAdjacentHTML('beforeend', 
+    ` <div class="task"> 
+        <div class="task__title"> ${line} </div> 
+        <a href="#" class="task__remove">&times;</a> 
+    </div> `);
+
+    const taskItems = [...tasksList.querySelectorAll('.task')]
+    const taskItem = taskItems[taskItems.length - 1];
+    const taskRemove = taskItem.querySelector('.task__remove');
+
     form.reset();
     form.elements['task__input'].focus();
 
@@ -42,5 +36,6 @@ function insertLine(line) {
         tasksSaved.splice(index, 1);
         localStorage.setItem('tasks', JSON.stringify(tasksSaved));
         taskItem.remove();
+        form.elements['task__input'].focus();
     }, {once: true})
 }

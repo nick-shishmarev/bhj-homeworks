@@ -1,19 +1,22 @@
 const haveTooltips = Array.from(document.querySelectorAll('.has-tooltip'));
+const tooltip = document.createElement('div');
+tooltip.classList.add('tooltip');
+document.querySelector('.header').append(tooltip);
 
 haveTooltips.forEach(haveTooltip => {
-    haveTooltip.style = 'position: "relative"'
+    // haveTooltip.style = 'position: "relative"'
     haveTooltip.addEventListener('click', (e) => {
         e.preventDefault();
-        items = Array.from(document.querySelectorAll('.tooltip'));
-        items.map(item => item.classList.remove('tooltip_active'));
-        const tooltip = document.createElement('div');
-        tooltip.classList.add('tooltip');
-        tooltip.textContent = haveTooltip.title;
-        haveTooltip.insertAdjacentElement("afterend", tooltip);
-        tooltip.classList.add('tooltip_active');
-        const position = haveTooltip.dataset.position; 
-        const pos = getPosition(haveTooltip, tooltip, position);
-        tooltip.style = pos;
+
+        if (tooltip.textContent === haveTooltip.title) {
+            tooltip.classList.toggle('tooltip_active');
+        } else {
+            tooltip.textContent = haveTooltip.title;
+            tooltip.classList.add('tooltip_active');
+            const position = haveTooltip.dataset.position; 
+            const pos = getPosition(haveTooltip, tooltip, position);
+            tooltip.style = pos;
+        }
     })
 })
 
