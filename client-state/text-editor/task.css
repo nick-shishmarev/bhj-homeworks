@@ -8,3 +8,22 @@ textarea {
   border: 1px solid #e2e2e2;
   box-sizing: border-box;
 }
+
+.content {
+  position: relative;
+}
+
+.card {
+  position: relative;
+}
+
+.clear-btn {
+  position: absolute;
+  top: 0;
+  right: -200px;
+  background: #cccccc;
+}
+
+.clear-btn:hover {
+  background: #444444;
+}

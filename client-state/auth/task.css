@@ -1,9 +1,15 @@
+.content {
+  position: relative;
+}
+
 .signin {
   display: none;
 }
+
 .signin_active {
   display: block;
 }
+
 .control {
     width: 100%;
     display: block;
@@ -44,4 +50,15 @@
 .welcome_active {
   display: block;
   text-align: center;
+}
+
+.logout {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.logout_active {
+  display: block;
 }
